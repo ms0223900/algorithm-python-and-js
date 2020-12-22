@@ -29,18 +29,18 @@ class Node_btree_order_print(Node):
   def pre_order(self, res=[]):
     res.append(self.data) # 從根結點、葉節點開始取值
     if self.left:
-      self.left.pre_order()
+      self.left.pre_order(res)
       pass
     if self.right:
-      self.right.pre_order()
+      self.right.pre_order(res)
       pass
     return res
 
   def post_order(self, res=[]):
     if self.left:
-      self.left.post_order()
+      self.left.post_order(res)
     if self.right:
-      self.right.post_order()
+      self.right.post_order(res)
     res.append(self.data) # 先找到左邊最深層子節點最右邊的
     return res
 

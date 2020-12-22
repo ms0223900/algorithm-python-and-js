@@ -1,3 +1,10 @@
+const {
+  renderBtreeData,
+} = require('./renderBtreeData')
+const {
+  NodeBtreeCrud,
+} = require('./ch_6_node_btree_crud')
+
 class BasicNode {
   constructor(data) {
     this.data = data
@@ -8,6 +15,7 @@ class BasicNode {
 
 class NodeBtreeOrderPrint extends BasicNode {
   inorderPrint(res=[]) {
+    // 從小(左)到大(右)
     if(this.left) {
       this.left.inorderPrint(res)
     }
@@ -17,9 +25,45 @@ class NodeBtreeOrderPrint extends BasicNode {
     }
     return res
   }
+
+  inorderPrintDesc(res=[]) {
+    // 從大(右)到小(左)
+    if(this.right) {
+      this.right.inorderPrintDesc(res)
+    }
+    res.push(this.data)
+    if(this.left) {
+      this.left.inorderPrintDesc(res)
+    }
+    return res
+  }
+
+  preOrderPrint(res=[]) {
+    // 先取根節點
+    res.push(this.data)
+    if(this.left) {
+      this.left.preOrderPrint(res)
+    }
+    if(this.right) {
+      this.right.preOrderPrint(res)
+    }
+    return res
+  }
+
+  postOrderPrint(res=[]) {
+    if(this.left) {
+      this.left.preOrderPrint(res)
+    }
+    if(this.right) {
+      this.right.preOrderPrint(res)
+    }
+    // 從最深的節點開始取值
+    res.push(this.data)
+    return res
+  }
 }
 
-class NodeBtree extends NodeBtreeOrderPrint {
+class NodeBtree extends NodeBtreeOrderPrint, NodeBtreeCrud {
   constructor(data) {
     super(data)
   }
@@ -62,75 +106,25 @@ function nodeBtreeExample(dataArr=initDataArr) {
   return btree
 }
 
-const BTREE_RENDER_CONFIGS = {
-  initPos: {
-    x: 300,
-    y: 100,
-  },
-  dx: 50,
-  dy: 100,
-  directions: {
-    left: 'left',
-    right: 'right',
-  }
-}
-
-function renderBtree(btree) {
-  let res = []
-
-  function renderNodeItem(data, { x, level, direction }) {
-    return ({
-      value: data,
-      direction,
-      x,
-      y: BTREE_RENDER_CONFIGS.initPos.y + (level * BTREE_RENDER_CONFIGS.dy),
-    })
-  }
-
-  function recusiveRenderBtree(btree, { 
-    x=BTREE_RENDER_CONFIGS.initPos.x, 
-    level=0,
-    direction,
-  }) {
-    if(btree.data) {
-      const nodeItem = renderNodeItem(btree.data, { x, level, direction, })
-      res.push(nodeItem)
-    }
-
-    const childrens = [btree.left, btree.right]
-    childrens.forEach((child, i) => {
-      if(i === 0 && child) {
-        recusiveRenderBtree(child, { 
-          x: x-BTREE_RENDER_CONFIGS.dx, 
-          level: level+1,
-          direction: BTREE_RENDER_CONFIGS.directions.left, 
-        })
-      }
-      if(i === 1 && child) {
-        recusiveRenderBtree(child, { 
-          x: x+BTREE_RENDER_CONFIGS.dx,
-          level: level+1,
-          direction: BTREE_RENDER_CONFIGS.directions.right, 
-        })
-      } 
-    })
-  }
-
-  recusiveRenderBtree(btree)
-  return res
-}
-
 function printBtree(btree) {
-  const inorderRes = btree.inorderPrint()
-  console.log(inorderRes)
+  console.log(`inorder print(asc): ${btree.inorderPrint()}`)
+  console.log(`inorder print(desc): ${btree.inorderPrintDesc()}`)
+}
+
+function crudBtree(btree) {
+  console.log(`search value: `)
 }
 
 function main() {
   const btree = nodeBtreeExample()
   // console.log(btree)
-  // printBtree(btree)
-  console.log(renderBtree(btree))
+  printBtree(btree)
+  // console.log(renderBtreeData(btree))
 }
 
 main()
 
+module.exports = {
+  BasicNode,
+  NodeBtree,
+}

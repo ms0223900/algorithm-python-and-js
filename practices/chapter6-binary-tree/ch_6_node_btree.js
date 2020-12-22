@@ -4,6 +4,7 @@ const {
 const {
   NodeBtreeCrud,
 } = require('./ch_6_node_btree_crud')
+const { rl } = require('../lib/cmdReadline')
 
 class BasicNode {
   constructor(data) {
@@ -13,7 +14,7 @@ class BasicNode {
   }
 }
 
-class NodeBtreeOrderPrint extends BasicNode {
+class NodeBtreeOrderPrint extends NodeBtreeCrud {
   inorderPrint(res=[]) {
     // 從小(左)到大(右)
     if(this.left) {
@@ -63,7 +64,7 @@ class NodeBtreeOrderPrint extends BasicNode {
   }
 }
 
-class NodeBtree extends NodeBtreeOrderPrint, NodeBtreeCrud {
+class NodeBtree extends NodeBtreeOrderPrint {
   constructor(data) {
     super(data)
   }
@@ -112,13 +113,17 @@ function printBtree(btree) {
 }
 
 function crudBtree(btree) {
-  console.log(`search value: `)
+  rl.question('Search value from btree: ', ans => {
+    console.log(`search value ${ans}: `, btree.searchValue(ans))
+    rl.close()
+  })
 }
 
 function main() {
   const btree = nodeBtreeExample()
   // console.log(btree)
   printBtree(btree)
+  crudBtree(btree)
   // console.log(renderBtreeData(btree))
 }
 

@@ -31,13 +31,18 @@ class Node_btree_order_print(Node):
       pass
     return res
 
-  def post_order(self, res=[]):
+  def post_order(self, res=[], level=0, levels=[]):
     if self.left:
-      self.left.post_order(res)
+      self.left.post_order(res, level+1, levels)
     if self.right:
-      self.right.post_order(res)
+      self.right.post_order(res, level+1, levels)
+    levels.append(level)
     res.append(self.data) # 先找到左邊最深層子節點最右邊的
-    return res
+    # return res
+    return {
+      "post_ordered_res": res,
+      "max_level": max(levels),
+    }
 
 class Node_btree_crud(Node):
   def search(self, value):
@@ -92,7 +97,7 @@ def node_btree_example():
   pre_order_res = node_btree.pre_order()
   print('pre-order result: ', pre_order_res)
   
-  post_order_res = node_btree.post_order()
+  post_order_res = node_btree.post_order([])
   print('post-order result: ', post_order_res)
 
 def node_btree_crud_example():
@@ -104,6 +109,5 @@ def node_btree_crud_example():
   print('search %d from node tree: ' % (search_val_from_input) + node_btree.search(search_val_from_input))
 
 if __name__ == "__main__":
-    # node_btree_example()
+    node_btree_example()
     # node_btree_crud_example()
-    node_btree_delete_sample()

@@ -23,14 +23,19 @@ class Delete_btree_node():
     pass
     # 如果找到了，但是左和右都有子節點
     # 方法一，找左邊節點中最大的
-    left_max_node = self.get_max_node(btree.left)
+    # left_max_node = self.get_max_node(btree.left)
 
-    temp_tree = Node_btree(left_max_node.data)
-    temp_tree.left = self.get_left_node(btree.left)
-    temp_tree.right = btree.right
+    # temp_tree = Node_btree(left_max_node.data)
+    # temp_tree.left = self.get_left_node(btree.left)
+    # temp_tree.right = btree.right
 
     # 方法二，找右邊節點最小的
-    ##
+    right_min_node = self.get_min_node(btree.right)
+    
+    temp_tree = Node_btree(right_min_node.data)
+    temp_tree.right = self.get_right_node(btree.right)
+    temp_tree.left = btree.left
+    ## 
     return temp_tree
   pass
 
@@ -42,6 +47,12 @@ class Delete_btree_node():
     return node
     pass
 
+  def get_min_node(self, btree):
+    node = btree
+    while node.left:
+      node = node.left
+    return node
+
   # 
   def get_left_node(self, btree):
     if btree.right is None:
@@ -49,6 +60,13 @@ class Delete_btree_node():
       return _tree
     # 往右邊找最大的點來替補
     btree.right = self.get_left_node(btree.right)
+    return btree
+
+  def get_right_node(self, btree):
+    if btree.left is None:
+      _tree = btree.right
+      return _tree
+    btree.left = self.get_right_node(btree.left)
     return btree
 
 

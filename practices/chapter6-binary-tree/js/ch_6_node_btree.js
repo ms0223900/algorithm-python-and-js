@@ -4,7 +4,7 @@ const {
 const {
   NodeBtreeCrud,
 } = require('./ch_6_node_btree_crud')
-const { rl } = require('../lib/cmdReadline')
+const { rl } = require('../../lib/cmdReadline')
 
 class BasicNode {
   constructor(data) {
@@ -14,7 +14,7 @@ class BasicNode {
   }
 }
 
-class NodeBtreeOrderPrint extends NodeBtreeCrud {
+class NodeBtreeOrderPrint extends BasicNode {
   inorderPrint(res=[]) {
     // 從小(左)到大(右)
     if(this.left) {
@@ -65,10 +65,6 @@ class NodeBtreeOrderPrint extends NodeBtreeCrud {
 }
 
 class NodeBtree extends NodeBtreeOrderPrint {
-  constructor(data) {
-    super(data)
-  }
-
   insertData(data) {
     if(!this.data) {
       this.data = data
@@ -99,6 +95,8 @@ class NodeBtree extends NodeBtreeOrderPrint {
   }
 }
 
+NodeBtree.prototype.searchValue = NodeBtreeCrud.prototype.searchValue
+
 const initDataArr = [10, 20, 11, 5, 21, 38, 22, 100]
 
 function nodeBtreeExample(dataArr=initDataArr) {
@@ -122,7 +120,7 @@ function crudBtree(btree) {
 function main() {
   const btree = nodeBtreeExample()
   // console.log(btree)
-  printBtree(btree)
+  // printBtree(btree)
   crudBtree(btree)
   // console.log(renderBtreeData(btree))
 }
@@ -130,6 +128,8 @@ function main() {
 main()
 
 module.exports = {
+  initDataArr,
+  nodeBtreeExample,
   BasicNode,
   NodeBtree,
 }

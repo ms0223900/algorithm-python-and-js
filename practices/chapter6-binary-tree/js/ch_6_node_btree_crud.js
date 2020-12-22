@@ -1,10 +1,11 @@
-const { BasicNode, } = require('./ch_6_node_btree')
+const { nodeBtreeExample, NodeBtree, initDataArr } = require('./ch_6_node_btree')
+const { rl } = require('../../lib/cmdReadline')
 
-class NodeBtreeCrud extends BasicNode {
+class NodeBtreeCrud {
   searchValue(value) {
     if(value < this.data) {
       if(this.left) {
-        this.left.searchValue(value)
+        return this.left.searchValue(value)
       } else {
         return ({
           searchRes: 'not found.',
@@ -14,7 +15,7 @@ class NodeBtreeCrud extends BasicNode {
     }
     else if(value > this.data) {
       if(this.right) {
-        this.right.searchValue(value)
+        return this.right.searchValue(value)
       } else {
         return ({
           searchRes: 'not found.',
@@ -27,6 +28,16 @@ class NodeBtreeCrud extends BasicNode {
       value,
       node: this,
     })
+  }
+}
+
+class DeleteBtreeNode {
+  static deleteNode(btree, key) {
+
+  }
+
+  static getMaxNode() {
+
   }
 }
 

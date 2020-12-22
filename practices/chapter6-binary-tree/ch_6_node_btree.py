@@ -1,8 +1,4 @@
-class Node():
-  def __init__(self, data=None):
-    self.data = data
-    self.left = None
-    self.right = None
+from ch_6_basic_btree_node import Node
 
 class Node_btree_order_print(Node):
   # 中序列印，會印出"由小到大"
@@ -19,7 +15,6 @@ class Node_btree_order_print(Node):
   def inorder_print_desc(self, res=[]):
     if self.right:
       self.right.inorder_print_desc(res)
-      pass
     res.append(self.data)
     if self.left:
       self.left.inorder_print_desc(res)
@@ -50,15 +45,14 @@ class Node_btree_crud(Node):
       if not self.left: # 如果往左找不到子節點
         return str(value) + ' is not exist.'
       return self.left.search(value)
-      pass
     elif value > self.data:
       if not self.right: # 如果往右找不到子節點
         return str(value) + ' is not exist.'
         pass
       return self.right.search(value)
-      pass
     else:
       return str(value) + ' found.'
+    pass
 
 class Node_btree(Node_btree_order_print, Node_btree_crud):  
   def insert_node(self, data):
@@ -110,5 +104,6 @@ def node_btree_crud_example():
   print('search %d from node tree: ' % (search_val_from_input) + node_btree.search(search_val_from_input))
 
 if __name__ == "__main__":
-    node_btree_example()
-    node_btree_crud_example()
+    # node_btree_example()
+    # node_btree_crud_example()
+    node_btree_delete_sample()

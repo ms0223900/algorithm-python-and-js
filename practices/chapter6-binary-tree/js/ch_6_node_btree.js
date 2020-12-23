@@ -125,7 +125,7 @@ function main() {
   // console.log(renderBtreeData(btree))
 }
 
-main()
+// main()
 
 module.exports = {
   initDataArr,

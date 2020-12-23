@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from ch_6_node_btree import Node_btree
 from ch_6_node_btree import node_btree
 
@@ -11,7 +12,6 @@ class Delete_btree_node():
     if dataKey > btree.data:
       btree.right = self.delete_node(btree.right, dataKey)
       return btree
-
     # 如果找到了，且左邊或右邊是空的，找右邊或左邊是來替補
     if btree.left is None:
       new_tree = btree.right
@@ -75,7 +75,7 @@ def node_btree_delete_sample():
   node_deleter = Delete_btree_node()
   print('before deleted(inorder print): ', _node_btree.inorder_print([]))
 
-  val_from_input = eval(input('Input search value: '))
+  val_from_input = eval(input('Input value for delete: '))
   new_btree = node_deleter.delete_node(_node_btree, val_from_input)
   print('deleted result(inorder print): ', new_btree.inorder_print([]))
 

@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from ch_6_basic_btree_node import Node
 
 class Node_btree_order_print(Node):

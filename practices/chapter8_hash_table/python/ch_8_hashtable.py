@@ -43,11 +43,11 @@ def get_vote_result(voted_dict={}):
 def vote():
   voted_dict = {}
   command = ''
-  is_valid_command = True
+  should_continue_voting = True
 
   if not voted_dict:
     vote_someone(voted_dict)
-  while is_valid_command:
+  while should_continue_voting:
     command_key = input('Input command: ')
     if command_key in vote_commands:
       command = vote_commands[command_key]
@@ -56,12 +56,12 @@ def vote():
       elif command == vote_commands['next_vote']:
         vote_someone(voted_dict)
       elif command == vote_commands['exit']:
-        is_valid_command = False
+        should_continue_voting = False
       else:
-        is_valid_command = False
+        should_continue_voting = False
     else:
       print('Command is invalid, voting close.')
-      is_valid_command = False
+      should_continue_voting = False
   print('Vote is finnished, there is result below.')
   voted_result = get_vote_result(voted_dict)
 

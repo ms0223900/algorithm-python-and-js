@@ -131,8 +131,12 @@ function heapTreePopSample() {
 function main() {
   // heapTreeSample()
   // heapTreeInsertSample()
-  heapTreePopSample()
+  // heapTreePopSample()
 }
 
 main()
+
+module.exports = {
+  HeapTree,
+}
 

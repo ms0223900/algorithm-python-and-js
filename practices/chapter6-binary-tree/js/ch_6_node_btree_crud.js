@@ -1,5 +1,7 @@
-const { nodeBtreeExample, NodeBtree, initDataArr } = require('./ch_6_node_btree')
-const { rl } = require('../../lib/cmdReadline')
+const SEARCH_RES = {
+  'notFound': 'not-found',
+  'found': 'found',
+}
 
 class NodeBtreeCrud {
   searchValue(value) {
@@ -8,7 +10,7 @@ class NodeBtreeCrud {
         return this.left.searchValue(value)
       } else {
         return ({
-          searchRes: 'not found.',
+          searchRes: SEARCH_RES.notFound,
           value: undefined,
         })
       }
@@ -18,26 +20,16 @@ class NodeBtreeCrud {
         return this.right.searchValue(value)
       } else {
         return ({
-          searchRes: 'not found.',
+          searchRes: SEARCH_RES.notFound,
           value: undefined,
         })
       }
     }
     return ({
-      searchRes: 'found',
+      searchRes: SEARCH_RES.found,
       value,
       node: this,
     })
-  }
-}
-
-class DeleteBtreeNode {
-  static deleteNode(btree, key) {
-
-  }
-
-  static getMaxNode() {
-
   }
 }
 

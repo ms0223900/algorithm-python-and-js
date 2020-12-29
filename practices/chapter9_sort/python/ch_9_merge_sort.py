@@ -30,7 +30,7 @@ def merge_sort(data_list):
   return merge(left_sort, right_sort)
 
 def main():
-  data_list = [1, 3, 2, 8, 7, 6, 5, 4, 2.5]
+  data_list = [9, 3, 2, 8, 7, 10, 6, 5, 4, 1,]
   print('Origin data list: ', data_list)
   print('Merge sorted: ', merge_sort(data_list))
 

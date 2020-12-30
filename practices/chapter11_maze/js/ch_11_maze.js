@@ -19,10 +19,10 @@ const bigMaze = [
   [1, 0, 1, 1, 0, 0, 0, 0, 1],
   [1, 0, 1, 1, 1, 0, 1, 0, 1],
   [1, 0, 0, 0, 0, 0, 1, 0, 1],
-  [1, 0, 1, 0, 1, 0, 1, 0, 0],
+  [1, 0, 1, 0, 1, 0, 1, 0, 1],
   [1, 1, 0, 0, 1, 0, 1, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
-] // [0, 1], [8, 6]
+] // [0, 1], [7, 6]
 
 const directionFns = [
   (x, y) => [x - 1, y],
@@ -51,18 +51,21 @@ function solveMaze(maze=[]) {
         })
       }
 
-      else if (!(currentPos[0] === goalPos[0] && currentPos[1] === goalPos[1])) {
-        for (const directionFn of directionFns) {
-          const nextPos = directionFn(currentPos[0], currentPos[1])
-          // console.log(nextPos)
-          const nextMazeStatus = solvedMaze[nextPos[0]][nextPos[1]]
-          if(nextMazeStatus === 0) {
-            passedPathStack.push(nextPos)
-            solvedMaze[nextPos[0]][nextPos[1]] = 2
-            break
-          }
+      let nextPosFound = false
+      for (const directionFn of directionFns) {
+        const nextPos = directionFn(currentPos[0], currentPos[1])
+        // console.log(nextPos)
+        const nextMazeStatus = solvedMaze[nextPos[0]][nextPos[1]]
+        if(nextMazeStatus === 0) {
+          passedPathStack.push(nextPos)
+          solvedMaze[nextPos[0]][nextPos[1]] = 2
+          nextPosFound = true
+          break
         }
-      } else {
+      }
+
+      // 如果這一輪沒找到下一個位置，表示目前為死路
+      if(!nextPosFound) {
         solvedMaze[currentPos[0]][currentPos[1]] = 3
         passedPathStack.pop()
       }
@@ -85,7 +88,7 @@ function convertInputToArr(input_str='1,1') {
 
 function main() {
   let start = [1, 1]
-  let goal = [8, 6]
+  let goal = [7, 7]
 
   // rl.question('Input start(e.g. 1,1): ', ans => {
   //   start = convertInputToArr(ans)

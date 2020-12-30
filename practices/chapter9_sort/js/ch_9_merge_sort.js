@@ -20,7 +20,7 @@ function mergeTwoArr(arr1=[], arr2=[]) {
   if(arr2.length > 0) {
     res = [...res, ...arr2]
   }
-  console.log(res)
+  // console.log(res)
 
   return res
 }
@@ -43,4 +43,8 @@ function mergeSort(dataList=[]) {
 
 const main = consoleSort(mergeSort)
 
-main()
+// main()
+
+module.exports = {
+  mergeSort,
+}

@@ -29,6 +29,7 @@ def search_banana_dealer(name, graph):
     'banana_dealer_name': banana_dealer_name
   }
 
+# 單向圖形
 people_graph = {
   'Tom': ['Ivan', 'Ira', 'Kevin'],
   'Ivan': ['Peter'],

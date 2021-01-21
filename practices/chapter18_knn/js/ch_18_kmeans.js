@@ -2,6 +2,14 @@ import {
   KmeansRender
 } from './kmeansRender.js'
 
+const animationDelaySecs = 1
+
+const delayFnWrapper = (delaySecs=1) => (fn) => (...params) => (
+  new Promise(res => (
+    setTimeout(() => res(fn(...params)), 1000 * delaySecs)
+  ))
+)
+
 function getRandom(min, max) {
   return min + Math.floor(Math.random() * (max - min))
 }
@@ -49,14 +57,14 @@ function clustering(points, clusterCenterPoints, clusterNumber, seedsAmount) {
   return clusters
 }
 
-function kmeans(points=[[]], clusterCenterPoints=[[]], clusterNumber, seedsAmount) {
+async function kmeans(points=[[]], clusterCenterPoints=[[]], clusterNumber, seedsAmount) {
   const kmeansRender = new KmeansRender()
   const clusters = clustering(points, clusterCenterPoints, clusterNumber, seedsAmount)
   // render on canvas
   kmeansRender.scatter(points, '#00f')
   kmeansRender.scatter(clusterCenterPoints, '#c00')
 
-  const clusterLineColors = ['#ff0', '#f0f', '#0cc']
+  const clusterLineColors = ['#dd0', '#f0f', '#0cc']
   for (let i = 0; i < clusters.length; i++) {
     const cluster = clusters[i];
     const lineColor = clusterLineColors[i]
@@ -70,6 +78,9 @@ function kmeans(points=[[]], clusterCenterPoints=[[]], clusterNumber, seedsAmoun
   }
 
   kmeansRender.show()
+  // return new Promise(res => {
+  //   setTimeout(() => res(clusters), 1000 * animationDelaySecs)
+  // })
   return clusters
 }
 
@@ -92,11 +103,11 @@ function makeNewClusterCenterPoints(clusters) {
   return newClusterCenterPoints
 }
 
-function getBestClusters(clusterNumber, seedsAmount, limits) {
+async function getBestClusters(clusterNumber, seedsAmount, limits) {
   const points = makeRandomPoints(0, limits, seedsAmount)
 
   let clusterCenterPoints = makeRandomPoints(0, limits, clusterNumber)
-  let clusters = kmeans(points, clusterCenterPoints, clusterNumber, seedsAmount)
+  let clusters = await delayFnWrapper(animationDelaySecs)(kmeans)(points, clusterCenterPoints, clusterNumber, seedsAmount)
 
   while(true) {
     const newClusterCenterPoints = makeNewClusterCenterPoints(clusters)
@@ -104,20 +115,28 @@ function getBestClusters(clusterNumber, seedsAmount, limits) {
       break
     } else {
       clusterCenterPoints = newClusterCenterPoints
-      clusters = kmeans(points, clusterCenterPoints, clusterNumber, seedsAmount)
+      clusters = await delayFnWrapper(animationDelaySecs)(kmeans)(points, clusterCenterPoints, clusterNumber, seedsAmount)
     }
   }
 
   return clusters
 }
 
-function main() {
+async function main() {
   const clusterNumber = 3
   const seeds = 100
   const limits = 400
 
-  const res = getBestClusters(clusterNumber, seeds, limits)
+  const res = await getBestClusters(clusterNumber, seeds, limits)
   console.log(res)
 }
 
-main()
+function setup() {
+  main()
+  const genKmeansButton = document.getElementById('genKmeans')
+  genKmeansButton.addEventListener('click', () => {
+    main()
+  })
+}
+
+setup()

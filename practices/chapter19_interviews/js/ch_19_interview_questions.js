@@ -103,10 +103,13 @@ function dynamicPlanMax(targetWeight=0, weightValueList=[]) {
         const remainWeight = weight - weightValueList[i - 1].weight
         const next = weightValueList[i - 1].value + table[i - 1][remainWeight].value
         const maxValue = Math.max(prev, next)
+         // 初始化該物件
         table[i][weight] = {
           value: maxValue,
           pickedPlans: [],
         }
+        // 小心別使用以下方式，因為object沒有被「重新指定給值」，會一直參考到同一個記憶體位置
+        // table[i][weight].value = maxValue
 
         if(next > prev) {
           const remainWeightPlans = table[i - 1][remainWeight].pickedPlans
